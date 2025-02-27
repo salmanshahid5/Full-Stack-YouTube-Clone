@@ -12,13 +12,15 @@ import { GoogleController } from "./controllers/auth.js";
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:3000", // Your frontend URL
-  credentials: true,
+  origin: "*"
 }));
 dotenv.config();
 
 app.use(cookieParser());
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("API is running successfully!");
+});
 
 app.use("/api/auth", GoogleController);
 app.use("/api/auth", authRouter);
@@ -41,7 +43,8 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(8800, () => {
+app.listen(PORT, () => {
   connectDB();
   console.log(`Server Listen in port ${PORT}`);
 });
+
